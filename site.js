@@ -15,8 +15,9 @@ $(document).ready(function() {
 
     /* Initial Manipulable Variables */
     let user;
+    let userKey
+    let player;
     let opponent;
-    let userKey;
     let gameInProgress = false;
 
     /* HTML Variables */
@@ -41,25 +42,23 @@ $(document).ready(function() {
     const messageArea = $('#messages');
 
     /* Firebase Storage Variables */
-    const playersRef = database.ref("/playersRef");
-    const connectedRef = database.ref(".info/connected");
+    const usersRef = database.ref('/usersRef');
+    const playersRef = database.ref('/playersRef');
+    const connectedRef = database.ref('.info/connected');
 
-    
-
-
-
+    /* Object of functions */
     const rochambeau = {
 
-        newConnectionListener: function() {
+        firebaseListeners: function() {
 
             /* When a user connects ... */
             connectedRef.on("value", function(snap) {
 
                 /* If they are connected ... */
                 if (snap.val()) {
-
-                    // Push their empty profile to the playersRef object
-                    const con = playersRef.push({
+                    
+                    // Push their empty profile to the usersRef database
+                    const con = usersRef.push({
                         name: '',
                         wins: 0,
                         losses: 0,
@@ -67,52 +66,40 @@ $(document).ready(function() {
                         turn: false
                     });
 
-                    // Remove user from the connection list when they disconnect.
+                    // Remove user from the connection list when they disconnect
                     con.onDisconnect().remove();
 
                 }
-            });  
-        },
+            });
+            
+            playersRef.on("value", function(snap) {
+                if(snap.numChildren < 3) {
 
-        newUserListener: function() {
-
-            playersRef.on('child_added', function(snap) {
-                user = snap.val();
-                userKey = snap.key;
+                }
             })
-              
+
         },
 
         userJoin: function() {
-            if(!gameInProgress) {
-                
-            }
-        }
-
-        /*
-        addPlayer: function() {
             event.preventDefault();
-            const name = submitField.val().trim();
-            submitField.text('');
+            if(!gameInProgress) {
+                name = submitField.val().trim();
+                const newPlayer = {
+                    name: name,
+                    wins: 0,
+                    losses: 0,
+                    playing: false,
+                    turn: false
+                }
+                playersRef.push(newPlayer);
 
-            database.ref('/players').push({
-                player1Name: name,
-                wins: 0,
-                losses: 0,
-                selection: '',
-            })
+            }
         },
 
-        playerAdded: function(snapshot) {
-            const playerName = snapshot.val().playerName;
-            player1Name.text(playerName);
-        } */
     }
-
-    // submitBtn.click(rochambeau.addPlayer);
-    // database.ref('/players').on('child_added', rochambeau.playerAdded);
-    rochambeau.newConnectionListener();
-    rochambeau.newUserListener();
+    
+    submitBtn.click(rochambeau.userJoin);
+    rochambeau.firebaseListeners();
 })
 
 /* 
