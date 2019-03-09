@@ -70,7 +70,7 @@
     
     /* Results-Area Styling */
     
-    #results {
+    #results-area {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -87,6 +87,26 @@
     /* Chat-Area Styling */
     
     #chat-area {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #messages {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        background: lightblue;
+        padding: .3rem;
+        width: 100%
+    }
+
+    #chat-window {
+        background: white;
+        width: 50%
+    }
+
+    #chat-submit-column {
         display: flex;
         flex-direction: column;
         align-items: center;
