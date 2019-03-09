@@ -14,27 +14,13 @@ $(document).ready(function() {
     const database = firebase.database();
 
     /* Initial Manipulable Variables */
-    
+    let user;
     let userKey;
-
-    let game = {
-        playerName: '',
-        playerKey: '',
-        playerWins: 0,
-        playerLosses: 0,
-        playerSelection: '',
-        playerStatus: '',
-        playerTurn: false,
-        opponentName: '',
-        opponentKey: '',
-        opponentWins: 0,
-        opponentLosses: 0,
-        opponentSelection: '',
-        opponentStatus: '',
-        opponentTurn: false,
-        spotsFilled: 0,
-        gameInProgress: false,
-    }
+    let player;
+    let playerKey;
+    let opponent;
+    let spotsFilled = 0;
+    let gameInProgress = false;
 
     /* HTML Variables */
     const submitField = $('#player-submit-field');
@@ -61,7 +47,6 @@ $(document).ready(function() {
 
     /* Firebase Storage Variables */
     const usersRef = database.ref('/usersRef');
-    const gameRef = database.ref('/gameRef');
     const chatsRef = database.ref('/chatsRef');
     const connectedRef = database.ref('.info/connected');
 
@@ -82,7 +67,7 @@ $(document).ready(function() {
                         wins: 0,
                         losses: 0,
                         selection: '',
-                        status: '',
+                        joinedFirst: false,
                         playing: false,
                         turn: false,
                     });
@@ -95,44 +80,16 @@ $(document).ready(function() {
                 }
             });
 
-            gameRef.on('value', function(snap) {
-                const gameState = snap.val();
-                if(gameState) {
-                    player1Name.text(gameState.playerName);
-                    game = gameState
-                    console.log(game.spotsFilled);
-                }
-            });
-
             usersRef.on('child_changed', function(snap){
-                if(game.spotsFilled === 0) {
-                    const player = snap.val();
-                    gameRef.update({
-                        playerName: player.name,
-                        playerKey: snap.key,
-                        playerWins: player.wins,
-                        playerLosses: player.losses,
-                        playerSelection: '',
-                        playerStatus: player.status,
-                        playerTurn: true,
-                        opponentName: '',
-                        opponentKey: '',
-                        opponentWins: 0,
-                        opponentLosses: 0,
-                        opponentSelection: '',
-                        opponentStatus: '',
-                        opponentTurn: false,
-                        spotsFilled: 1,
-                        gameInProgress: false,
-                    });
-                } else if(game.spotsFilled === 1) {
-                    const opponent = snap.val();
-                    gameRef.update({
-                        opponentName: opponent.name,
-                        opponentKey: snap.key,
-                        opponentWins: opponent.wins,
-                        opponentLosses: opponentLosses,
-                    })
+                if(spotsFilled === 0) {
+                    player = snap.val();
+                    player1Name.text(player.name);
+                    playerKey = snap.key;
+                    spotsFilled++;
+                } else if(spotsFilled === 1 && snap.val().joinedFirst === false) {
+                    opponent = snap.val();
+                    player2Name.text(opponent.name)
+                    spotsFilled++;
                     if(spotsFilled > 1) {
                         resultsMessage.text('Player 1, choose your weapon.')
                     }
@@ -150,23 +107,19 @@ $(document).ready(function() {
 
         userJoin: function() {
             event.preventDefault();
-            if(!game.gameInProgress && game.spotsFilled === 0) {
+            if(!gameInProgress && spotsFilled === 0) {
                 name = submitField.val().trim();
                 usersRef.child(userKey).update({
                     name: name,
-                    status: 'player',
                     playing: true,
+                    joinedFirst: true
                 });
-            } else if(!game.gameInProgress && game.spotsFilled === 1 && userKey !== game.playerKey) {
-                console.log('yes');
+            } else if(!gameInProgress && spotsFilled === 1 && userKey !== playerKey) {
                 name = submitField.val().trim();
                 usersRef.child(userKey).update({
                     name: name,
-                    status: 'opponent',
                     playing: true
                 });
-            } else {
-
             }
         },
 
@@ -184,15 +137,10 @@ $(document).ready(function() {
 })
 
 /* 
-
 *** PSUEDOCODE ***
-
 submitBtn click function: addPlayer() {
     * If player 1 isn't established, it assigns someone to be player 1.
     * If player 2 isn't established, it assigns someone to be player 2.
     * If both are established, it fires a function for rock-paper-scissors to begin
 }
-
-
-
 */
