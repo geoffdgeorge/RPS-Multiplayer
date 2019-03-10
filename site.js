@@ -30,6 +30,7 @@ $(document).ready(function() {
         opponentLosses: 0,
         opponentSelection: '',
         opponentTurn: false,
+        ties: 0,
         gameInProgress: false,
     }
 
@@ -40,12 +41,8 @@ $(document).ready(function() {
     const player2Name = $('#player-two-name');
     const p1ImgArea = $('#player-one-throw');
     const p2ImgArea = $('#player-two-throw');
-    const rP1Btn = $('#rP1');
-    const pP1Btn = $('#pP1');
-    const sP1Btn = $('#sP1');
-    const rP2Btn = $('#rP2');
-    const pP2Btn = $('#pP2');
-    const sP2Btn = $('#sP2');
+    const p1Btns = $('.p1-btn');
+    const p2Btns = $('.p2-btn');
     const resultsMessage = $('#results');
     const p1Wins = $('#p1Wins');
     const p1Losses = $('#p1Losses');
@@ -55,6 +52,9 @@ $(document).ready(function() {
     const chatWindow = $('#chat-window');
     const chatMessage = $('#chat-message');
     const chatSubmit = $('#chat-submit');
+    const scissorsImg = $('<img>').attr('src', 'assets/scissors.png').addClass('gameImg');
+    const rockImg = $('<img>').attr('src', 'assets/rock.png').addClass('gameImg');
+    const paperImg = $('<img>').attr('src', 'assets/paper.png').addClass('gameImg');
 
     /* Firebase Storage Variables */
     const usersRef = database.ref('/usersRef');
@@ -95,21 +95,87 @@ $(document).ready(function() {
                 if(gameState) {
                     if(!gameState.playerName && !gameState.playerKey && !gameState.opponentName && !gameState.opponentKey) {
                         player1Name.text('Waiting ...');
+                        p1Wins.text('Wins:');
+                        p1Losses.text('Losses:');
                         player2Name.text('Waiting ...');
+                        p2Wins.text('Wins:');
+                        p2Losses.text('Losses:');
+                        resultsMessage.text('')
                         game = gameState;
                     } else if(gameState.playerName && gameState.playerKey && !gameState.opponentName && !gameState.opponentKey) {
                         player1Name.text(gameState.playerName);
+                        p1Wins.text('Wins: ' + gameState.playerWins);
+                        p1Losses.text('Losses: ' + gameState.playerLosses);
                         player2Name.text('Waiting ...');
+                        p2Wins.text('Wins:');
+                        p2Losses.text('Losses:');
+                        resultsMessage.text('')
                         game = gameState;
                     } else if(!gameState.playerName && !gameState.playerKey && gameState.opponentName && gameState.opponentKey){
                         player1Name.text('Waiting ...');
+                        p1Wins.text('Wins:');
+                        p1Losses.text('Losses:');
                         player2Name.text(gameState.opponentName);
+                        p2Wins.text('Wins: ' + gameState.opponentWins);
+                        p2Losses.text('Losses: ' + gameState.opponentLosses);
+                        resultsMessage.text('');
                         game = gameState;
                     } else if(gameState.playerName && gameState.playerKey && gameState.opponentName && gameState.opponentKey) {
-                        player1Name.text(gameState.playerName);
-                        player2Name.text(gameState.opponentName);
-                        resultsMessage.text('Player 1, choose your weapon.')
+                        function allPlayersConnected() {
+                            player1Name.text(gameState.playerName);
+                            p1Wins.text('Wins: ' + gameState.playerWins);
+                            p1Losses.text('Losses: ' + gameState.playerLosses);
+                            player2Name.text(gameState.opponentName);
+                            p2Wins.text('Wins: ' + gameState.opponentWins);
+                            p2Losses.text('Losses: ' + gameState.opponentLosses);
+                            ties.text('Ties: ' + gameState.ties);
+                        };
+                        allPlayersConnected();
+                        resultsMessage.text('Player 1, choose your weapon.');
                         game = gameState;
+                        if(gameState.playerSelection) {
+                            resultsMessage.text('Player 2, choose your weapon.');
+                            game = gameState;
+                            if(gameState.playerSelection && gameState.opponentSelection) {
+                                if(gameState.playerSelection === 'r' && gameState.opponentSelection === 's') {
+                                    rockImg.appendTo(p1ImgArea);
+                                    scissorsImg.appendTo(p2ImgArea);
+                                    resultsMessage.text(gameState.playerName + ' wins!');
+                                } else if (gameState.playerSelection === 's' && gameState.opponentSelection === 'p') {
+                                    scissorsImg.appendTo(p1ImgArea);
+                                    paperImg.appendTo(p2ImgArea);
+                                    resultsMessage.text(gameState.playerName + ' wins!');
+                                } else if(gameState.playerSelection === 'p' && gameState.opponentSelection === 'r') {
+                                    paperImg.appendTo(p1ImgArea);
+                                    rockImg.appendTo(p2ImgArea);
+                                    resultsMessage.text(gameState.playerName + ' wins!');
+                                } else if(gameState.playerSelection === 's' && gameState.opponentSelection === 'r') {
+                                    scissorsImg.appendTo(p1ImgArea);
+                                    rockImg.appendTo(p2ImgArea);
+                                    resultsMessage.text(gameState.opponentName + ' wins!');
+                                } else if(gameState.playerSelection === 'r' && gameState.opponentSelection === 'p') {
+                                    rockImg.appendTo(p1ImgArea);
+                                    paperImg.appendTo(p2ImgArea);
+                                    resultsMessage.text(gameState.opponentName + ' wins!');
+                                } else if(gameState.playerSelection === 'p' && gameState.opponentSelection === 's') {
+                                    paperImg.appendTo(p1ImgArea);
+                                    scissorsImg.appendTo(p2ImgArea);
+                                    resultsMessage.text(gameState.opponentName + ' wins!');
+                                } else if(gameState.playerSelection === 'p' && gameState.opponentSelection === 'p') {
+                                    paperImg.appendTo(p1ImgArea);
+                                    paperImg.appendTo(p2ImgArea);
+                                    resultsMessage.text('Tie game!');
+                                } else if(gameState.playerSelection === 'r' && gameState.opponentSelection === 'r') {
+                                    rockImg.appendTo(p1ImgArea);
+                                    rockImg.appendTo(p2ImgArea);
+                                    resultsMessage.text('Tie game!');
+                                } else if(gameState.playerSelection === 's' && gameState.opponentSelection === 's') {
+                                    scissorsImg.appendTo(p1ImgArea);
+                                    scissorsImg.appendTo(p2ImgArea);
+                                    resultsMessage.text('Tie game!');
+                                }
+                            }
+                        }
                     }
                 }
             });
@@ -130,6 +196,7 @@ $(document).ready(function() {
                         opponentLosses: 0,
                         opponentSelection: '',
                         opponentTurn: false,
+                        ties: 0,
                         gameInProgress: false,
                     });
                 } else if(!game.playerName && game.opponentName) {
@@ -168,6 +235,7 @@ $(document).ready(function() {
                             playerLosses: 0,
                             playerSelection: '',
                             playerTurn: false,
+                            ties: 0,
                             gameInProgress: false,
                         });
                     } else if(snap.key === game.opponentKey) {
@@ -178,6 +246,7 @@ $(document).ready(function() {
                             opponentLosses: 0,
                             opponentSelection: '',
                             opponentTurn: false,
+                            ties: 0,
                             gameInProgress: false,
                         });
                     }
@@ -195,7 +264,6 @@ $(document).ready(function() {
 
         userJoin: function() {
             event.preventDefault();
-            console.log(userKey)
             if(!game.gameInProgress && !game.playerKey && userKey !== game.opponentKey) {
                 name = submitField.val().trim();
                 usersRef.child(userKey).update({
@@ -209,32 +277,58 @@ $(document).ready(function() {
             }
         },
 
+        player1Choice: function() {
+            event.preventDefault();
+            if(userKey === game.playerKey) {
+                if(game.gameInProgress) {
+                    if(game.playerTurn) {
+                        const choice = $(this).text().toLowerCase();
+                        console.log(choice);
+                        gameRef.update({
+                            playerSelection: choice,
+                            playerTurn: false,
+                            opponentTurn: true
+                        })
+                    }
+                }
+            }
+        },
+
+        player2Choice: function() {
+            event.preventDefault();
+            if(userKey === game.opponentKey) {
+                if(game.gameInProgress) {
+                    if(game.opponentTurn) {
+                        const opponentChoice = $(this).text().toLowerCase();
+                        console.log(opponentChoice);
+                        gameRef.update({
+                            opponentSelection: opponentChoice,
+                        })
+                    }
+                }
+            }
+        },
+
         chatAdd: function() {
             event.preventDefault();
             const message = chatMessage.val().trim();
             chatsRef.push(message);
-        }
+        },
+
+        allPlayersConnected: function() {
+            player1Name.text(gameState.playerName);
+            p1Wins.text('Wins: ' + gameState.playerWins);
+            p1Losses.text('Losses: ' + gameState.playerLosses);
+            player2Name.text(gameState.opponentName);
+            p2Wins.text('Wins: ' + gameState.opponentWins);
+            p2Losses.text('Losses: ' + gameState.opponentLosses);
+        },
     
     }
     
     submitBtn.click(rochambeau.userJoin);
+    p1Btns.click(rochambeau.player1Choice);
+    p2Btns.click(rochambeau.player2Choice);
     chatSubmit.click(rochambeau.chatAdd);
     rochambeau.firebaseListeners();
 })
-
-/* 
-
-*** PSUEDOCODE ***
-
-submitBtn click function: addPlayer() {
-    * If player 1 isn't established, it assigns someone to be player 1.
-    * If player 2 isn't established, it assigns someone to be player 2.
-    * If both are established, it fires a function for rock-paper-scissors to begin
-}
-
-
-Questions for tutor:
-1. Help me understand onDisconnect a little more and whether there are other disconnect functions
-
-
-*/

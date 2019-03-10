@@ -61,6 +61,10 @@
         width: 7rem;
     }
 
+    .gameImg {
+        width: 100%;
+    }
+
     .button-field {
         display: flex;
         flex-direction: row;
