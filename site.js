@@ -98,14 +98,32 @@ $(document).ready(function() {
             gameRef.on('value', function(snap) {
                 const gameState = snap.val();
                 if(gameState) {
-                    player1Name.text(gameState.playerName);
-                    game = gameState
-                    console.log(game.spotsFilled);
+                    if(!gameState.playerName && !gameState.playerKey && !gameState.opponentName && !gameState.opponentKey) {
+                        player1Name.text('Waiting ...');
+                        player2Name.text('Waiting ...');
+                        game = gameState;
+                        console.log(game.opponentKey);
+                    } else if(gameState.playerName && gameState.playerKey && !gameState.opponentName && !gameState.opponentKey) {
+                        player1Name.text(gameState.playerName);
+                        player2Name.text('Waiting ...');
+                        game = gameState;
+                        console.log(game.opponentKey);
+                    } else if(!gameState.playerName && !gameState.playerKey && gameState.opponentName && gameState.opponentKey){
+                        player1Name.text('Waiting ...');
+                        player2Name.text(gameState.opponentName);
+                        game = gameState;
+                        console.log(game.opponentKey);
+                    } else if(gameState.playerName && gameState.playerKey && gameState.opponentName && gameState.opponentKey) {
+                        player1Name.text(gameState.playerName);
+                        player2Name.text(gameState.opponentName);
+                        game = gameState;
+                        console.log(game.opponentKey);
+                    }
                 }
             });
 
             usersRef.on('child_changed', function(snap){
-                if(game.spotsFilled === 0) {
+                if(!game.playerName && !game.opponentName) {
                     const player = snap.val();
                     gameRef.update({
                         playerName: player.name,
@@ -125,19 +143,64 @@ $(document).ready(function() {
                         spotsFilled: 1,
                         gameInProgress: false,
                     });
-                } else if(game.spotsFilled === 1) {
+                } else if(!game.playerName && game.opponentName) {
+                    const player = snap.val();
+                    gameRef.update({
+                        playerName: player.name,
+                        playerKey: snap.key,
+                        playerWins: player.wins,
+                        playerLosses: player.losses,
+                        playerSelection: '',
+                        playerStatus: player.status,
+                        playerTurn: true,
+                        opponentTurn: false,
+                        gameInProgress: true,
+                    });
+                } else if(game.playerName && !game.opponentName) {
                     const opponent = snap.val();
                     gameRef.update({
                         opponentName: opponent.name,
                         opponentKey: snap.key,
                         opponentWins: opponent.wins,
-                        opponentLosses: opponentLosses,
+                        opponentLosses: opponent.losses,
+                        spotsFilled: 2,
+                        gameInProgress: true,
                     })
-                    if(spotsFilled > 1) {
+                    if(game.spotsFilled > 1) {
                         resultsMessage.text('Player 1, choose your weapon.')
                     }
                 } 
-            })
+            });
+
+            usersRef.on('child_removed', function(snap) {
+                if(game.playerKey || game.opponentKey) {
+                    if(snap.key === game.playerKey) {
+                        gameRef.update({
+                            playerName: '',
+                            playerKey: '',
+                            playerWins: 0,
+                            playerLosses: 0,
+                            playerSelection: '',
+                            playerStatus: '',
+                            playerTurn: false,
+                            spotsFilled: 0,
+                            gameInProgress: false,
+                        });
+                    } else if(snap.key === game.opponentKey) {
+                        gameRef.update({
+                            opponentName: '',
+                            opponentKey: '',
+                            opponentWins: 0,
+                            opponentLosses: 0,
+                            opponentSelection: '',
+                            opponentStatus: '',
+                            opponentTurn: false,
+                            spotsFilled: 1,
+                            gameInProgress: false,
+                        });
+                    }
+                }
+            });
 
             chatsRef.on('child_added', function(snap) {
                 const messageText = snap.val();
@@ -158,7 +221,6 @@ $(document).ready(function() {
                     playing: true,
                 });
             } else if(!game.gameInProgress && game.spotsFilled === 1 && userKey !== game.playerKey) {
-                console.log('yes');
                 name = submitField.val().trim();
                 usersRef.child(userKey).update({
                     name: name,
@@ -193,6 +255,9 @@ submitBtn click function: addPlayer() {
     * If both are established, it fires a function for rock-paper-scissors to begin
 }
 
+
+Questions for tutor:
+1. Help me understand onDisconnect a little more and whether there are other disconnect functions
 
 
 */
