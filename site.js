@@ -23,16 +23,13 @@ $(document).ready(function() {
         playerWins: 0,
         playerLosses: 0,
         playerSelection: '',
-        playerStatus: '',
         playerTurn: false,
         opponentName: '',
         opponentKey: '',
         opponentWins: 0,
         opponentLosses: 0,
         opponentSelection: '',
-        opponentStatus: '',
         opponentTurn: false,
-        
         gameInProgress: false,
     }
 
@@ -82,8 +79,6 @@ $(document).ready(function() {
                         wins: 0,
                         losses: 0,
                         selection: '',
-                        status: '',
-                        playing: false,
                         turn: false,
                     });
 
@@ -128,14 +123,12 @@ $(document).ready(function() {
                         playerWins: player.wins,
                         playerLosses: player.losses,
                         playerSelection: '',
-                        playerStatus: player.status,
                         playerTurn: true,
                         opponentName: '',
                         opponentKey: '',
                         opponentWins: 0,
                         opponentLosses: 0,
                         opponentSelection: '',
-                        opponentStatus: '',
                         opponentTurn: false,
                         gameInProgress: false,
                     });
@@ -147,7 +140,6 @@ $(document).ready(function() {
                         playerWins: player.wins,
                         playerLosses: player.losses,
                         playerSelection: '',
-                        playerStatus: player.status,
                         playerTurn: true,
                         opponentTurn: false,
                         gameInProgress: true,
@@ -159,6 +151,8 @@ $(document).ready(function() {
                         opponentKey: snap.key,
                         opponentWins: opponent.wins,
                         opponentLosses: opponent.losses,
+                        opponentSelection: opponent.selection,
+                        opponentTurn: false,
                         gameInProgress: true,
                     })
                 } 
@@ -173,7 +167,6 @@ $(document).ready(function() {
                             playerWins: 0,
                             playerLosses: 0,
                             playerSelection: '',
-                            playerStatus: '',
                             playerTurn: false,
                             gameInProgress: false,
                         });
@@ -184,7 +177,6 @@ $(document).ready(function() {
                             opponentWins: 0,
                             opponentLosses: 0,
                             opponentSelection: '',
-                            opponentStatus: '',
                             opponentTurn: false,
                             gameInProgress: false,
                         });
@@ -208,15 +200,11 @@ $(document).ready(function() {
                 name = submitField.val().trim();
                 usersRef.child(userKey).update({
                     name: name,
-                    status: 'player',
-                    playing: true,
                 });
             } else if(!game.gameInProgress && !game.opponentKey && userKey !== game.playerKey) {
                 name = submitField.val().trim();
                 usersRef.child(userKey).update({
                     name: name,
-                    status: 'opponent',
-                    playing: true
                 });
             }
         },
