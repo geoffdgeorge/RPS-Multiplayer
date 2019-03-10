@@ -32,6 +32,7 @@ $(document).ready(function() {
         opponentSelection: '',
         opponentStatus: '',
         opponentTurn: false,
+        
         gameInProgress: false,
     }
 
@@ -101,23 +102,19 @@ $(document).ready(function() {
                         player1Name.text('Waiting ...');
                         player2Name.text('Waiting ...');
                         game = gameState;
-                        console.log(game.opponentKey);
                     } else if(gameState.playerName && gameState.playerKey && !gameState.opponentName && !gameState.opponentKey) {
                         player1Name.text(gameState.playerName);
                         player2Name.text('Waiting ...');
                         game = gameState;
-                        console.log(game.opponentKey);
                     } else if(!gameState.playerName && !gameState.playerKey && gameState.opponentName && gameState.opponentKey){
                         player1Name.text('Waiting ...');
                         player2Name.text(gameState.opponentName);
                         game = gameState;
-                        console.log(game.opponentKey);
                     } else if(gameState.playerName && gameState.playerKey && gameState.opponentName && gameState.opponentKey) {
                         player1Name.text(gameState.playerName);
                         player2Name.text(gameState.opponentName);
                         resultsMessage.text('Player 1, choose your weapon.')
                         game = gameState;
-                        console.log(game.opponentKey);
                     }
                 }
             });
@@ -206,22 +203,21 @@ $(document).ready(function() {
 
         userJoin: function() {
             event.preventDefault();
-            if(!game.gameInProgress) {
+            console.log(userKey)
+            if(!game.gameInProgress && !game.playerKey && userKey !== game.opponentKey) {
                 name = submitField.val().trim();
                 usersRef.child(userKey).update({
                     name: name,
                     status: 'player',
                     playing: true,
                 });
-            } else if(!game.gameInProgress && userKey !== game.playerKey) {
+            } else if(!game.gameInProgress && !game.opponentKey && userKey !== game.playerKey) {
                 name = submitField.val().trim();
                 usersRef.child(userKey).update({
                     name: name,
                     status: 'opponent',
                     playing: true
                 });
-            } else {
-
             }
         },
 
