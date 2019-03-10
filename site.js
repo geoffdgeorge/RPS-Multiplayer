@@ -32,7 +32,6 @@ $(document).ready(function() {
         opponentSelection: '',
         opponentStatus: '',
         opponentTurn: false,
-        spotsFilled: 0,
         gameInProgress: false,
     }
 
@@ -116,6 +115,7 @@ $(document).ready(function() {
                     } else if(gameState.playerName && gameState.playerKey && gameState.opponentName && gameState.opponentKey) {
                         player1Name.text(gameState.playerName);
                         player2Name.text(gameState.opponentName);
+                        resultsMessage.text('Player 1, choose your weapon.')
                         game = gameState;
                         console.log(game.opponentKey);
                     }
@@ -140,7 +140,6 @@ $(document).ready(function() {
                         opponentSelection: '',
                         opponentStatus: '',
                         opponentTurn: false,
-                        spotsFilled: 1,
                         gameInProgress: false,
                     });
                 } else if(!game.playerName && game.opponentName) {
@@ -163,12 +162,8 @@ $(document).ready(function() {
                         opponentKey: snap.key,
                         opponentWins: opponent.wins,
                         opponentLosses: opponent.losses,
-                        spotsFilled: 2,
                         gameInProgress: true,
                     })
-                    if(game.spotsFilled > 1) {
-                        resultsMessage.text('Player 1, choose your weapon.')
-                    }
                 } 
             });
 
@@ -183,7 +178,6 @@ $(document).ready(function() {
                             playerSelection: '',
                             playerStatus: '',
                             playerTurn: false,
-                            spotsFilled: 0,
                             gameInProgress: false,
                         });
                     } else if(snap.key === game.opponentKey) {
@@ -195,7 +189,6 @@ $(document).ready(function() {
                             opponentSelection: '',
                             opponentStatus: '',
                             opponentTurn: false,
-                            spotsFilled: 1,
                             gameInProgress: false,
                         });
                     }
@@ -213,14 +206,14 @@ $(document).ready(function() {
 
         userJoin: function() {
             event.preventDefault();
-            if(!game.gameInProgress && game.spotsFilled === 0) {
+            if(!game.gameInProgress) {
                 name = submitField.val().trim();
                 usersRef.child(userKey).update({
                     name: name,
                     status: 'player',
                     playing: true,
                 });
-            } else if(!game.gameInProgress && game.spotsFilled === 1 && userKey !== game.playerKey) {
+            } else if(!game.gameInProgress && userKey !== game.playerKey) {
                 name = submitField.val().trim();
                 usersRef.child(userKey).update({
                     name: name,
