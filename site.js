@@ -100,7 +100,7 @@ $(document).ready(function() {
                         player2Name.text('Waiting ...');
                         p2Wins.text('Wins:');
                         p2Losses.text('Losses:');
-                        resultsMessage.text('')
+                        resultsMessage.text('Waiting for players')
                         game = gameState;
                     } else if(gameState.playerName && gameState.playerKey && !gameState.opponentName && !gameState.opponentKey) {
                         player1Name.text(gameState.playerName);
@@ -109,7 +109,7 @@ $(document).ready(function() {
                         player2Name.text('Waiting ...');
                         p2Wins.text('Wins:');
                         p2Losses.text('Losses:');
-                        resultsMessage.text('')
+                        resultsMessage.text('Waiting for player 2')
                         game = gameState;
                     } else if(!gameState.playerName && !gameState.playerKey && gameState.opponentName && gameState.opponentKey){
                         player1Name.text('Waiting ...');
@@ -118,7 +118,7 @@ $(document).ready(function() {
                         player2Name.text(gameState.opponentName);
                         p2Wins.text('Wins: ' + gameState.opponentWins);
                         p2Losses.text('Losses: ' + gameState.opponentLosses);
-                        resultsMessage.text('');
+                        resultsMessage.text('Waiting for player 1');
                         game = gameState;
                     } else if(gameState.playerName && gameState.playerKey && gameState.opponentName && gameState.opponentKey) {
                         function allPlayersConnected() {
@@ -357,7 +357,7 @@ $(document).ready(function() {
                 snap.forEach(function(childSnap) {
                     const messageText = childSnap.val();
                     const newMessage = $('<p>').addClass('chats');
-                    newMessage.html(messageText);
+                    newMessage.text(messageText);
                     newMessage.prependTo(chatWindow);
                 })
             });

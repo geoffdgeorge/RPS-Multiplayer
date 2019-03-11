@@ -20,6 +20,14 @@
         margin: .5rem;
     }
     
+    h3 {
+        margin: .5rem;
+    }
+
+    h4 {
+        margin: .5rem;
+    }
+    
     /* Submit Area Styling */
 
     form {
@@ -70,6 +78,7 @@
         flex-direction: row;
         justify-content: space-evenly;
         width: 100%;
+        margin: .3rem;
     }
     
     /* Results-Area Styling */
@@ -98,26 +107,39 @@
 
     #messages {
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         justify-content: space-around;
         background: lightblue;
         padding: .3rem;
         width: 100%
     }
 
+    #chat-submit-row {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin-bottom: .3rem;
+    }
+
+    #chat-message {
+        width: 80%;
+    }
+
+    #chat-submit {
+        width: 19%
+    }
+
     #chat-window {
         background: white;
-        width: 50%;
-        height: 5rem;
+        width: 100%;
+        height: 10rem;
         overflow: auto;
         padding: .5rem;
         font-size: .8rem;
     }
 
-    #chat-submit-column {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+    .chats {
+        margin: .2rem;
     }
 
 }
