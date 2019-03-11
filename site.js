@@ -352,13 +352,15 @@ $(document).ready(function() {
                 }
             });
 
-            chatsRef.on('child_added', function(snap) {
-                const messageText = snap.val();
-                const newMessage = $('<p>');
-                newMessage.text(messageText);
-                newMessage.appendTo(chatWindow);
+            chatsRef.on('value', function(snap) {
+                chatWindow.empty();
+                snap.forEach(function(childSnap) {
+                    const messageText = childSnap.val();
+                    const newMessage = $('<p>').addClass('chats');
+                    newMessage.html(messageText);
+                    newMessage.prependTo(chatWindow);
+                })
             });
-
         },
 
         userJoin: function() {
@@ -374,6 +376,7 @@ $(document).ready(function() {
                     name: name,
                 });
             }
+            submitField.val('');
         },
 
         player1Choice: function() {
@@ -411,7 +414,14 @@ $(document).ready(function() {
         chatAdd: function() {
             event.preventDefault();
             const message = chatMessage.val().trim();
-            chatsRef.push(message);
+            if(userKey === game.playerKey) {
+                chatsRef.push(game.playerName + ': ' + message)
+            } else if(userKey === game.opponentKey) {
+                chatsRef.push(game.opponentName + ': ' + message)
+            } else {
+                chatsRef.push('Anon: ' + message);
+            }
+            chatMessage.val('');
         },
 
         allPlayersConnected: function() {
