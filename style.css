@@ -107,7 +107,10 @@
 
     #chat-window {
         background: white;
-        width: 50%
+        width: 50%;
+        overflow: auto;
+        padding: .5rem;
+        font-size: .8rem;
     }
 
     #chat-submit-column {

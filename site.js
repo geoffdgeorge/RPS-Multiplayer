@@ -141,44 +141,143 @@ $(document).ready(function() {
                                     rockImg.appendTo(p1ImgArea);
                                     scissorsImg.appendTo(p2ImgArea);
                                     resultsMessage.text(gameState.playerName + ' wins!');
+                                    gameState.playerWins++
+                                    gameState.opponentLosses++
+                                    p1Wins.text('Wins: ' + gameState.playerWins);
+                                    p1Losses.text('Losses: ' + gameState.playerLosses);
+                                    p2Wins.text('Wins: ' + gameState.opponentWins);
+                                    p2Losses.text('Losses: ' + gameState.opponentLosses);
+                                    ties.text('Ties: ' + gameState.ties);
+                                    game = gameState;
+                                    setTimeout(rochambeau.reset, 4000);
                                 } else if (gameState.playerSelection === 's' && gameState.opponentSelection === 'p') {
                                     scissorsImg.appendTo(p1ImgArea);
                                     paperImg.appendTo(p2ImgArea);
                                     resultsMessage.text(gameState.playerName + ' wins!');
+                                    gameState.playerWins++
+                                    gameState.opponentLosses++
+                                    p1Wins.text('Wins: ' + gameState.playerWins);
+                                    p1Losses.text('Losses: ' + gameState.playerLosses);
+                                    p2Wins.text('Wins: ' + gameState.opponentWins);
+                                    p2Losses.text('Losses: ' + gameState.opponentLosses);
+                                    ties.text('Ties: ' + gameState.ties);
+                                    game = gameState;
+                                    setTimeout(rochambeau.reset, 4000);
                                 } else if(gameState.playerSelection === 'p' && gameState.opponentSelection === 'r') {
                                     paperImg.appendTo(p1ImgArea);
                                     rockImg.appendTo(p2ImgArea);
                                     resultsMessage.text(gameState.playerName + ' wins!');
+                                    gameState.playerWins++
+                                    gameState.opponentLosses++
+                                    p1Wins.text('Wins: ' + gameState.playerWins);
+                                    p1Losses.text('Losses: ' + gameState.playerLosses);
+                                    p2Wins.text('Wins: ' + gameState.opponentWins);
+                                    p2Losses.text('Losses: ' + gameState.opponentLosses);
+                                    ties.text('Ties: ' + gameState.ties);
+                                    game = gameState;
+                                    setTimeout(rochambeau.reset, 4000);
                                 } else if(gameState.playerSelection === 's' && gameState.opponentSelection === 'r') {
                                     scissorsImg.appendTo(p1ImgArea);
                                     rockImg.appendTo(p2ImgArea);
                                     resultsMessage.text(gameState.opponentName + ' wins!');
+                                    gameState.playerLosses++
+                                    gameState.opponentWins++
+                                    p1Wins.text('Wins: ' + gameState.playerWins);
+                                    p1Losses.text('Losses: ' + gameState.playerLosses);
+                                    p2Wins.text('Wins: ' + gameState.opponentWins);
+                                    p2Losses.text('Losses: ' + gameState.opponentLosses);
+                                    ties.text('Ties: ' + gameState.ties);
+                                    game = gameState;
+                                    setTimeout(rochambeau.reset, 4000);
                                 } else if(gameState.playerSelection === 'r' && gameState.opponentSelection === 'p') {
                                     rockImg.appendTo(p1ImgArea);
                                     paperImg.appendTo(p2ImgArea);
                                     resultsMessage.text(gameState.opponentName + ' wins!');
+                                    gameState.playerLosses++
+                                    gameState.opponentWins++
+                                    p1Wins.text('Wins: ' + gameState.playerWins);
+                                    p1Losses.text('Losses: ' + gameState.playerLosses);
+                                    p2Wins.text('Wins: ' + gameState.opponentWins);
+                                    p2Losses.text('Losses: ' + gameState.opponentLosses);
+                                    ties.text('Ties: ' + gameState.ties);
+                                    game = gameState;
+                                    setTimeout(rochambeau.reset, 4000);
                                 } else if(gameState.playerSelection === 'p' && gameState.opponentSelection === 's') {
                                     paperImg.appendTo(p1ImgArea);
                                     scissorsImg.appendTo(p2ImgArea);
                                     resultsMessage.text(gameState.opponentName + ' wins!');
+                                    gameState.playerLosses++
+                                    gameState.opponentWins++
+                                    p1Wins.text('Wins: ' + gameState.playerWins);
+                                    p1Losses.text('Losses: ' + gameState.playerLosses);
+                                    p2Wins.text('Wins: ' + gameState.opponentWins);
+                                    p2Losses.text('Losses: ' + gameState.opponentLosses);
+                                    ties.text('Ties: ' + gameState.ties);
+                                    game = gameState;
+                                    setTimeout(rochambeau.reset, 4000);
                                 } else if(gameState.playerSelection === 'p' && gameState.opponentSelection === 'p') {
                                     paperImg.appendTo(p1ImgArea);
-                                    paperImg.appendTo(p2ImgArea);
+                                    paperImg.clone().appendTo(p2ImgArea);
                                     resultsMessage.text('Tie game!');
+                                    gameState.ties++
+                                    p1Wins.text('Wins: ' + gameState.playerWins);
+                                    p1Losses.text('Losses: ' + gameState.playerLosses);
+                                    p2Wins.text('Wins: ' + gameState.opponentWins);
+                                    p2Losses.text('Losses: ' + gameState.opponentLosses);
+                                    ties.text('Ties: ' + gameState.ties);
+                                    game = gameState;
+                                    setTimeout(rochambeau.reset, 4000);
                                 } else if(gameState.playerSelection === 'r' && gameState.opponentSelection === 'r') {
                                     rockImg.appendTo(p1ImgArea);
-                                    rockImg.appendTo(p2ImgArea);
+                                    rockImg.clone().appendTo(p2ImgArea);
                                     resultsMessage.text('Tie game!');
+                                    gameState.ties++
+                                    p1Wins.text('Wins: ' + gameState.playerWins);
+                                    p1Losses.text('Losses: ' + gameState.playerLosses);
+                                    p2Wins.text('Wins: ' + gameState.opponentWins);
+                                    p2Losses.text('Losses: ' + gameState.opponentLosses);
+                                    ties.text('Ties: ' + gameState.ties);
+                                    game = gameState;
+                                    setTimeout(rochambeau.reset, 4000);
                                 } else if(gameState.playerSelection === 's' && gameState.opponentSelection === 's') {
                                     scissorsImg.appendTo(p1ImgArea);
-                                    scissorsImg.appendTo(p2ImgArea);
+                                    scissorsImg.clone().appendTo(p2ImgArea);
                                     resultsMessage.text('Tie game!');
+                                    gameState.ties++
+                                    p1Wins.text('Wins: ' + gameState.playerWins);
+                                    p1Losses.text('Losses: ' + gameState.playerLosses);
+                                    p2Wins.text('Wins: ' + gameState.opponentWins);
+                                    p2Losses.text('Losses: ' + gameState.opponentLosses);
+                                    ties.text('Ties: ' + gameState.ties);
+                                    game = gameState;
+                                    setTimeout(rochambeau.reset, 4000);
                                 }
                             }
                         }
                     }
                 }
             });
+
+            database.ref().on('child_added', function(snap) {
+                if(snap.numChildren() === 1) {
+                    gameRef.update({
+                        playerName: '',
+                        playerKey: '',
+                        playerWins: 0,
+                        playerLosses: 0,
+                        playerSelection: '',
+                        playerTurn: false,
+                        opponentName: '',
+                        opponentKey: '',
+                        opponentWins: 0,
+                        opponentLosses: 0,
+                        opponentSelection: '',
+                        opponentTurn: false,
+                        ties: 0,
+                        gameInProgress: false,
+                    });
+                };
+            })
 
             usersRef.on('child_changed', function(snap){
                 if(!game.playerName && !game.opponentName) {
@@ -258,7 +357,7 @@ $(document).ready(function() {
                 const newMessage = $('<p>');
                 newMessage.text(messageText);
                 newMessage.appendTo(chatWindow);
-            })
+            });
 
         },
 
@@ -323,6 +422,23 @@ $(document).ready(function() {
             p2Wins.text('Wins: ' + gameState.opponentWins);
             p2Losses.text('Losses: ' + gameState.opponentLosses);
         },
+
+        reset: function() {
+            resultsMessage.text('Player 1, choose your weapon.');
+            p1ImgArea.empty();
+            p2ImgArea.empty();
+            gameRef.update({
+                playerSelection: '',
+                playerWins: game.playerWins,
+                playerLosses: game.playerLosses,
+                playerTurn: true,
+                opponentSelection: '',
+                opponentWins: game.opponentWins,
+                opponentLosses: game.opponentLosses,
+                opponentTurn: false,
+                ties: game.ties,
+            })
+        }
     
     }
     
