@@ -5,64 +5,69 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Rock, Paper, Scissors!</title>
+    <link rel="shortcut icon" href="assets/RPS-logo.png" type="image/x-icon" /> 
     <link rel="stylesheet" href="normalize.css">
+    <link href="https://fonts.googleapis.com/css?family=Concert+One" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1>RPS: ONLINE</h1>
-        <form>
-            <input id='player-submit-field' for='player-submit-button' type="text" placeholder="Enter your name to play!">
-            <button type="submit" id='player-submit-button'>Join</button>
-        </form>
-    </header>
-    <main>
-        <section id='player-row'>
-            <div class="player-column">
-                <h2 id='player-one-name'>Waiting ...</h2>
-                <div id='player-one-throw'></div>
-                <div class='button-field'>
-                    <button class='p1-btn' id='rP1'>R</button>
-                    <button class='p1-btn' id='pP1'>P</button>
-                    <button class='p1-btn' id='sP1'>S</button>
+    <div id='outer-container'>
+        <header>
+            <h1>RPS: <img id='logo' src="assets/RPS-logo.png" alt="A logo for rock/paper/scissors">NLINE</h1>
+        </header>
+        <main>
+            <section id='form-container'>
+                <form>
+                    <input id='player-submit-field' for='player-submit-button' type="text" placeholder="Enter your name to play!">
+                    <button type="submit" id='player-submit-button'>Join</button>
+                </form>
+            </section>
+            <section id='player-row'>
+                <div class="player-column">
+                    <h2 id='player-one-name'>Waiting ...</h2>
+                    <div id='player-one-throw'></div>
+                    <div class='button-field'>
+                        <button class='p1-btn' id='rP1'>R</button>
+                        <button class='p1-btn' id='pP1'>P</button>
+                        <button class='p1-btn' id='sP1'>S</button>
+                    </div>
                 </div>
-            </div>
-            <h3>VS.</h3>
-            <div class="player-column">
-                <h2 id='player-two-name'>Waiting ...</h2>
-                <div id='player-two-throw'></div>
-                <div class='button-field'>
-                    <button class='p2-btn' id='rP2'>R</button>
-                    <button class='p2-btn' id='pP2'>P</button>
-                    <button class='p2-btn' id='sP2'>S</button>
+                <h3>VS.</h3>
+                <div class="player-column">
+                    <h2 id='player-two-name'>Waiting ...</h2>
+                    <div id='player-two-throw'></div>
+                    <div class='button-field'>
+                        <button class='p2-btn' id='rP2'>R</button>
+                        <button class='p2-btn' id='pP2'>P</button>
+                        <button class='p2-btn' id='sP2'>S</button>
+                    </div>
                 </div>
-            </div>
-        </section>
-        <section id='results-area'>
-            <h3 id='results'></h3>
-            <div id='stats-row'>
-                <div class='player-stats'>
-                    <h4 id='p1Wins'>Wins:</h4>
-                    <h4 id='p1Losses'>Losses:</h4>
+            </section>
+            <section id='results-area'>
+                <h3 id='results'></h3>
+                <div id='stats-row'>
+                    <div class='player-stats'>
+                        <h4 id='p1Wins'>Wins:</h4>
+                        <h4 id='p1Losses'>Losses:</h4>
+                    </div>
+                    <h4 id='ties'>Ties:</h4>
+                    <div class='player-stats'>
+                        <h4 id='p2Wins'>Wins:</h4>
+                        <h4 id='p2Losses'>Losses:</h4>
+                    </div>
+                </di>
+            </section>
+            <section id='chat-area'>
+                <div id='messages'>
+                    <div id='chat-submit-row'>
+                        <input for='chat-submit' type='text' id='chat-message'></input>
+                        <button id='chat-submit'>Message</button>
+                    </div>
+                    <div id='chat-window'></div>
                 </div>
-                <h4 id='ties'>Ties:</h4>
-                <div class='player-stats'>
-                    <h4 id='p2Wins'>Wins:</h4>
-                    <h4 id='p2Losses'>Losses:</h4>
-                </div>
-            </di>
-        </section>
-        <section id='chat-area'>
-            <h2>Chat</h2>
-            <div id='messages'>
-                <div id='chat-submit-row'>
-                    <input for='chat-submit' type='text' id='chat-message'></input>
-                    <button id='chat-submit'>Message</button>
-                </div>
-                <div id='chat-window'></div>
-            </div>
-        </section>
-    </main>
+            </section>
+        </main>
+    </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.8.5/firebase.js"></script>
     <script src='site.js'></script>

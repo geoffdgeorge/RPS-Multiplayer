@@ -131,10 +131,10 @@ $(document).ready(function() {
                             ties.text('Ties: ' + gameState.ties);
                         };
                         allPlayersConnected();
-                        resultsMessage.text('Player 1, choose your weapon.');
+                        resultsMessage.text('Player 1, choose your weapon: rock (R), paper (P), or scissors (S).');
                         game = gameState;
                         if(gameState.playerSelection) {
-                            resultsMessage.text('Player 2, choose your weapon.');
+                            resultsMessage.text('Player 2, choose your weapon: rock (R), paper (P), or scissors (S).');
                             game = gameState;
                             if(gameState.playerSelection && gameState.opponentSelection) {
                                 if(gameState.playerSelection === 'r' && gameState.opponentSelection === 's') {
