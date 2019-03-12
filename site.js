@@ -138,8 +138,8 @@ $(document).ready(function() {
                             game = gameState;
                             if(gameState.playerSelection && gameState.opponentSelection) {
                                 if(gameState.playerSelection === 'r' && gameState.opponentSelection === 's') {
-                                    rockImg.appendTo(p1ImgArea);
-                                    scissorsImg.appendTo(p2ImgArea);
+                                    p1ImgArea.html(rockImg);
+                                    p2ImgArea.html(scissorsImg);
                                     resultsMessage.text(gameState.playerName + ' wins!');
                                     gameState.playerWins++
                                     gameState.opponentLosses++
@@ -151,8 +151,8 @@ $(document).ready(function() {
                                     game = gameState;
                                     setTimeout(rochambeau.reset, 4000);
                                 } else if (gameState.playerSelection === 's' && gameState.opponentSelection === 'p') {
-                                    scissorsImg.appendTo(p1ImgArea);
-                                    paperImg.appendTo(p2ImgArea);
+                                    p1ImgArea.html(scissorsImg);
+                                    p2ImgArea.html(paperImg);
                                     resultsMessage.text(gameState.playerName + ' wins!');
                                     gameState.playerWins++
                                     gameState.opponentLosses++
@@ -164,8 +164,8 @@ $(document).ready(function() {
                                     game = gameState;
                                     setTimeout(rochambeau.reset, 4000);
                                 } else if(gameState.playerSelection === 'p' && gameState.opponentSelection === 'r') {
-                                    paperImg.appendTo(p1ImgArea);
-                                    rockImg.appendTo(p2ImgArea);
+                                    p1ImgArea.html(paperImg);
+                                    p2ImgArea.html(rockImg);
                                     resultsMessage.text(gameState.playerName + ' wins!');
                                     gameState.playerWins++
                                     gameState.opponentLosses++
@@ -177,8 +177,8 @@ $(document).ready(function() {
                                     game = gameState;
                                     setTimeout(rochambeau.reset, 4000);
                                 } else if(gameState.playerSelection === 's' && gameState.opponentSelection === 'r') {
-                                    scissorsImg.appendTo(p1ImgArea);
-                                    rockImg.appendTo(p2ImgArea);
+                                    p1ImgArea.html(scissorsImg);
+                                    p2ImgArea.html(rockImg);
                                     resultsMessage.text(gameState.opponentName + ' wins!');
                                     gameState.playerLosses++
                                     gameState.opponentWins++
@@ -190,8 +190,8 @@ $(document).ready(function() {
                                     game = gameState;
                                     setTimeout(rochambeau.reset, 4000);
                                 } else if(gameState.playerSelection === 'r' && gameState.opponentSelection === 'p') {
-                                    rockImg.appendTo(p1ImgArea);
-                                    paperImg.appendTo(p2ImgArea);
+                                    p1ImgArea.html(rockImg);
+                                    p2ImgArea.html(paperImg);
                                     resultsMessage.text(gameState.opponentName + ' wins!');
                                     gameState.playerLosses++
                                     gameState.opponentWins++
@@ -203,8 +203,8 @@ $(document).ready(function() {
                                     game = gameState;
                                     setTimeout(rochambeau.reset, 4000);
                                 } else if(gameState.playerSelection === 'p' && gameState.opponentSelection === 's') {
-                                    paperImg.appendTo(p1ImgArea);
-                                    scissorsImg.appendTo(p2ImgArea);
+                                    p1ImgArea.html(paperImg);
+                                    p2ImgArea.html(scissorsImg);
                                     resultsMessage.text(gameState.opponentName + ' wins!');
                                     gameState.playerLosses++
                                     gameState.opponentWins++
@@ -216,8 +216,8 @@ $(document).ready(function() {
                                     game = gameState;
                                     setTimeout(rochambeau.reset, 4000);
                                 } else if(gameState.playerSelection === 'p' && gameState.opponentSelection === 'p') {
-                                    paperImg.appendTo(p1ImgArea);
-                                    paperImg.clone().appendTo(p2ImgArea);
+                                    p1ImgArea.html(paperImg);
+                                    p2ImgArea.html(paperImg.clone());
                                     resultsMessage.text('Tie game!');
                                     gameState.ties++
                                     p1Wins.text('Wins: ' + gameState.playerWins);
@@ -228,8 +228,8 @@ $(document).ready(function() {
                                     game = gameState;
                                     setTimeout(rochambeau.reset, 4000);
                                 } else if(gameState.playerSelection === 'r' && gameState.opponentSelection === 'r') {
-                                    rockImg.appendTo(p1ImgArea);
-                                    rockImg.clone().appendTo(p2ImgArea);
+                                    p1ImgArea.html(rockImg);
+                                    p2ImgArea.html(rockImg.clone());
                                     resultsMessage.text('Tie game!');
                                     gameState.ties++
                                     p1Wins.text('Wins: ' + gameState.playerWins);
@@ -240,8 +240,8 @@ $(document).ready(function() {
                                     game = gameState;
                                     setTimeout(rochambeau.reset, 4000);
                                 } else if(gameState.playerSelection === 's' && gameState.opponentSelection === 's') {
-                                    scissorsImg.appendTo(p1ImgArea);
-                                    scissorsImg.clone().appendTo(p2ImgArea);
+                                    p1ImgArea.html(scissorsImg);
+                                    p2ImgArea.html(scissorsImg.clone());
                                     resultsMessage.text('Tie game!');
                                     gameState.ties++
                                     p1Wins.text('Wins: ' + gameState.playerWins);
@@ -435,8 +435,8 @@ $(document).ready(function() {
 
         reset: function() {
             resultsMessage.text('Player 1, choose your weapon.');
-            p1ImgArea.empty();
-            p2ImgArea.empty();
+            p1ImgArea.html('<h1>?</h1>');
+            p2ImgArea.html('<h1>?</h1>');
             gameRef.update({
                 playerSelection: '',
                 playerWins: game.playerWins,

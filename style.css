@@ -12,18 +12,15 @@
         font-size: 3.5rem;
     }
 
-    h2 {
+    h2, h3, h4 {
         margin: .3rem;
     }
     
-    h3 {
-        margin: .3rem;
+    #background {
+        background: linear-gradient(to bottom right, #b0faff, #f0fbff, #fdff7f);
+        height: 43rem;
     }
 
-    h4 {
-        margin: .3rem;
-    }
-    
     /* Header Styling */
 
     header {
@@ -60,10 +57,14 @@
     }
 
     #player-submit-button {
-        background: lightblue;
+        background: #add8e6;
         width: 19%;
         padding: .3rem;
         border-radius: .3rem;
+    }
+
+    #player-submit-button:hover {
+        background-color: #6cb9d3;
     }
 
     /* Player-Row Styling */
@@ -83,21 +84,31 @@
     }
     
     #player-one-throw {
-        border: black .2rem solid;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border: #000000 .2rem solid;
         height: 7rem;
         width: 7rem;
         margin: .3rem;
         border-radius: .3rem;
         box-shadow: .1rem .1rem .3rem #888888;
+        background: #ffffff;
     }
     
     #player-two-throw {
-        border: black .2rem solid;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border: #000000 .2rem solid;
         height: 7rem;
         width: 7rem;
         margin: .3rem;
         border-radius: .3rem;
         box-shadow: .1rem .1rem .3rem #888888;
+        background: #ffffff;
     }
 
     .gameImg {
@@ -116,7 +127,7 @@
     .p1-btn {
         border-radius: .3rem;
         background: #add8e6;
-        box-shadow: .1rem .1rem .2rem #888888;
+        box-shadow: .1rem .1rem .2rem #9b9b9b;
     }
 
     .p1-btn:hover {
@@ -126,7 +137,7 @@
     .p2-btn {
         border-radius: .3rem;
         background: #add8e6;
-        box-shadow: .1rem .1rem .2rem #888888;
+        box-shadow: .1rem .1rem .2rem #9b9b9b;
     }
 
     .p2-btn:hover {
@@ -162,7 +173,7 @@
         display: flex;
         flex-direction: column;
         justify-content: space-around;
-        background: lightblue;
+        background: slategray;
         margin: .3rem;
         padding: .3rem;
         width: 100%
@@ -187,8 +198,12 @@
         border-radius: .3rem;
     }
 
+    #chat-submit:hover {
+        background: #add8e6;        
+    }
+
     #chat-window {
-        background: white;
+        background: #ffffff;
         width: 100%;
         height: 10rem;
         overflow: auto;
