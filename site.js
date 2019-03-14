@@ -65,15 +65,16 @@ $(document).ready(function() {
     /* Object of functions */
     const rochambeau = {
 
+        /* A large function that holds all the change-event listeners for the Firebase database */
         firebaseListeners: function() {
 
-            /* When a user connects ... */
+            /* For this listener, when a user connects ... */
             connectedRef.on('value', function(snap) {
 
                 /* If they are connected ... */
                 if (snap.val()) {
                     
-                    // Push their empty profile to the usersRef database
+                    /* Their empty profile gets pushed to the usersRef database. */
                     const con = usersRef.push({
                         name: '',
                         wins: 0,
@@ -82,14 +83,16 @@ $(document).ready(function() {
                         turn: false,
                     });
 
-                    // Remove user from the connection list when they disconnect
+                    /* Removes user from the connection list when they disconnect. */
                     con.onDisconnect().remove();
 
+                    /* The user's unique Firebase key is stored as the local userKey on their screen. */
                     userKey = con.key;
                     
                 }
             });
 
+            /* This listener changes the game display with each update of the game-conditions database. */
             gameRef.on('value', function(snap) {
                 const gameState = snap.val();
                 if(gameState) {
@@ -258,6 +261,7 @@ $(document).ready(function() {
                 }
             });
 
+            /* This listener resets everything in the game-conditions database when a lone user connects. */
             database.ref().on('child_added', function(snap) {
                 if(snap.numChildren() === 1) {
                     gameRef.update({
@@ -279,6 +283,7 @@ $(document).ready(function() {
                 };
             })
 
+            /* This listener sends updates to the game-conditions database when someone signs in as either player 1 or player 2. */
             usersRef.on('child_changed', function(snap){
                 if(!game.playerName && !game.opponentName) {
                     const player = snap.val();
@@ -324,6 +329,7 @@ $(document).ready(function() {
                 } 
             });
 
+            /* This listener sends updates to the game-conditions database when a player signs off. */
             usersRef.on('child_removed', function(snap) {
                 if(game.playerKey || game.opponentKey) {
                     if(snap.key === game.playerKey) {
@@ -352,6 +358,7 @@ $(document).ready(function() {
                 }
             });
 
+            /* This listener updates the chat window with each new chat that gets uploaded to the chat database. */
             chatsRef.on('value', function(snap) {
                 chatWindow.empty();
                 snap.forEach(function(childSnap) {
@@ -363,15 +370,15 @@ $(document).ready(function() {
             });
         },
 
+        /* This function updates the user database with when a user signs in to play. The logic is built the way it is so that anyone who signs in can't sign in a second time. */
         userJoin: function() {
             event.preventDefault();
+            const name = submitField.val().trim();
             if(!game.gameInProgress && !game.playerKey && userKey !== game.opponentKey) {
-                name = submitField.val().trim();
                 usersRef.child(userKey).update({
                     name: name,
                 });
             } else if(!game.gameInProgress && !game.opponentKey && userKey !== game.playerKey) {
-                name = submitField.val().trim();
                 usersRef.child(userKey).update({
                     name: name,
                 });
@@ -379,6 +386,7 @@ $(document).ready(function() {
             submitField.val('');
         },
 
+        /* This function records the choice of player 1 when it's that person's turn. */
         player1Choice: function() {
             event.preventDefault();
             if(userKey === game.playerKey) {
@@ -396,6 +404,7 @@ $(document).ready(function() {
             }
         },
 
+        /* This function records the choice of player 2 when it's that person's turn. */
         player2Choice: function() {
             event.preventDefault();
             if(userKey === game.opponentKey) {
@@ -411,6 +420,7 @@ $(document).ready(function() {
             }
         },
 
+        /* This function records each submitted chat and uploads it to the chat database. */
         chatAdd: function() {
             event.preventDefault();
             const message = chatMessage.val().trim();
@@ -424,6 +434,7 @@ $(document).ready(function() {
             chatMessage.val('');
         },
 
+        /* This function dictates the screen display when the spots for player 1 and player 2 are both filled. */
         allPlayersConnected: function() {
             player1Name.text(gameState.playerName);
             p1Wins.text('Wins: ' + gameState.playerWins);
@@ -433,6 +444,7 @@ $(document).ready(function() {
             p2Losses.text('Losses: ' + gameState.opponentLosses);
         },
 
+        /* This function resets the conditions of the game at the end of each round. */
         reset: function() {
             resultsMessage.text('Player 1, choose your weapon.');
             p1ImgArea.html('<h1>?</h1>');
@@ -452,6 +464,7 @@ $(document).ready(function() {
     
     }
     
+    /* All the key functions are called. */
     submitBtn.click(rochambeau.userJoin);
     p1Btns.click(rochambeau.player1Choice);
     p2Btns.click(rochambeau.player2Choice);

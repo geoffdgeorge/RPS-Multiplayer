@@ -4,7 +4,14 @@
     
     * {
         box-sizing: border-box;
-        font-family: 'Concert One', cursive;
+        font-family: 'Concert One', sans-serif;
+    }
+
+    html {
+        background: linear-gradient(to bottom right, #b0faff, #f0fbff, #fdff7f);
+        height: 100%;
+        background-repeat: no-repeat;
+        padding-bottom: .5rem;
     }
 
     h1 {
@@ -14,11 +21,6 @@
 
     h2, h3, h4 {
         margin: .3rem;
-    }
-    
-    #background {
-        background: linear-gradient(to bottom right, #b0faff, #f0fbff, #fdff7f);
-        height: 43rem;
     }
 
     /* Header Styling */
