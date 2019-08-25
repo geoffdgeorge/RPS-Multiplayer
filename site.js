@@ -9,6 +9,7 @@ $(document).ready(function() {
         storageBucket: "brieftest-300a4.appspot.com",
         messagingSenderId: "704522530238"
     };
+    
     firebase.initializeApp(config);
 
     const database = firebase.database();
